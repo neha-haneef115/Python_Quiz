@@ -197,7 +197,7 @@ questions = [
 def main():
     st.set_page_config(
         page_title="Python Concepts Quiz", 
-        page_icon="🐍", 
+        page_icon="", 
         layout="wide",
         initial_sidebar_state="collapsed"
     )
@@ -210,7 +210,7 @@ def main():
         max-width: 100%;
     }
     
-    /* Radio button styling */
+
     .stRadio > div {
         display: flex;
         flex-direction: column;
@@ -265,10 +265,7 @@ def main():
             border: 1px solid #444444;
             background-color: #1e1e1e;
         }
-        .quiz-container {
-            background-color: #0e1117;
-            color: #ffffff;
-        }
+       
       
         .element-container .stTextInput input, 
         .element-container .stTextArea textarea,
@@ -312,12 +309,7 @@ def main():
     }
     
    
-    .quiz-container {
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
+  
     </style>
     """, unsafe_allow_html=True)
     
@@ -342,7 +334,7 @@ def main():
         display_question()
 
 def start_screen():
-    st.markdown("<div class='quiz-container'>", unsafe_allow_html=True)
+
     st.markdown("### Welcome to the Python Quiz!")
     st.markdown("Test your Python knowledge with this interactive quiz.")
     
