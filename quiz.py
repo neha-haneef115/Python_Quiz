@@ -231,7 +231,7 @@ def main():
         text-align: left;
         font-weight: 600;
         font-size: 20px;
-        margin-bottom: 30px;
+
     }
     
    
@@ -247,10 +247,7 @@ def main():
             border: 1px solid #e0e0e0;
             background-color: #ffffff;
         }
-        .quiz-container {
-            background-color: #ffffff;
-            color: #31333F;
-        }
+        
     }
     
     @media (prefers-color-scheme: dark) {
@@ -261,11 +258,7 @@ def main():
         .subheading {
             color: #e0e0e0;
         }
-        .option-container {
-            border: 1px solid #444444;
-            background-color: #1e1e1e;
-        }
-       
+      
       
         .element-container .stTextInput input, 
         .element-container .stTextArea textarea,
