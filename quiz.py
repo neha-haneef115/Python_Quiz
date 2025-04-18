@@ -204,41 +204,92 @@ def main():
     
     st.markdown("""
     <style>
+    
     .main {
         padding: 0rem 1rem;
         max-width: 100%;
     }
+    
+    /* Radio button styling */
     .stRadio > div {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
     }
+    
     .stRadio label {
         padding: 0.5rem;
         border-radius: 0.3rem;
         margin-bottom: 0.3rem;
+        transition: background-color 0.3s;
     }
-    .stRadio label:hover {
-        background-color: #f7f7f7;
-    }
-    .footer {
-       
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: #f0f2f6;
-        color: #31333F;
-        text-align: center;
-        padding: 10px 0;
-        font-size: 14px;
-    }
+    
+  
+    
+    
     .subheading {
         text-align: left;
-         font-weight:600;
-        color: #4B5563;
+        font-weight: 600;
         font-size: 20px;
         margin-bottom: 30px;
     }
+    
+   
+    @media (prefers-color-scheme: light) {
+        .stRadio label:hover {
+            background-color: #f7f7f7;
+        }
+       
+        .subheading {
+            color: #4B5563;
+        }
+        .option-container {
+            border: 1px solid #e0e0e0;
+            background-color: #ffffff;
+        }
+        .quiz-container {
+            background-color: #ffffff;
+            color: #31333F;
+        }
+    }
+    
+    @media (prefers-color-scheme: dark) {
+        .stRadio label:hover {
+            background-color: #2d2d2d;
+        }
+        
+        .subheading {
+            color: #e0e0e0;
+        }
+        .option-container {
+            border: 1px solid #444444;
+            background-color: #1e1e1e;
+        }
+        .quiz-container {
+            background-color: #0e1117;
+            color: #ffffff;
+        }
+      
+        .element-container .stTextInput input, 
+        .element-container .stTextArea textarea,
+        .element-container .stNumberInput input,
+        .element-container .stDateInput input {
+            background-color: #262730;
+            color: #ffffff;
+            border-color: #4e4e4e;
+        }
+        
+        .streamlit-expanderHeader {
+            background-color: #262730;
+            color: #ffffff;
+        }
+     
+        .stAlert {
+            border-radius: 4px;
+        }
+    }
+    
+   
     @media (max-width: 768px) {
         .main {
             padding: 0rem 0.5rem;
@@ -247,11 +298,31 @@ def main():
             width: 100%;
         }
     }
+    
+   
+    .option-container {
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 8px;
+    }
+    
+   
+    .stProgress .st-eb {
+        background-color: #4CAF50 !important;
+    }
+    
+   
+    .quiz-container {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
     </style>
     """, unsafe_allow_html=True)
     
     st.title("Python Concepts Quiz")
-    st.markdown("<div class='subheading'>from step 00_google_colab to step 09_exception_handling</div\>", unsafe_allow_html=True)
+    st.markdown("<div class='subheading'>from step 00_google_colab to step 09_exception_handling</div>", unsafe_allow_html=True)
     st.markdown("---")
     
     if 'quiz_started' not in st.session_state:
@@ -271,6 +342,7 @@ def main():
         display_question()
 
 def start_screen():
+    st.markdown("<div class='quiz-container'>", unsafe_allow_html=True)
     st.markdown("### Welcome to the Python Quiz!")
     st.markdown("Test your Python knowledge with this interactive quiz.")
     
@@ -292,8 +364,10 @@ def start_screen():
             st.session_state.quiz_started = True
             st.session_state.answers = [None] * num_questions
             st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
 
 def display_question():
+    st.markdown("<div class='quiz-container'>", unsafe_allow_html=True)
     question_data = st.session_state.questions[st.session_state.current_question]
     total_questions = len(st.session_state.questions)
     
@@ -303,19 +377,19 @@ def display_question():
     st.markdown(f"### Question {st.session_state.current_question + 1} of {total_questions}")
     st.markdown(f"**{question_data['question']}**")
     
-    # Generate a unique key for this question
+    
     q_key = f"q{st.session_state.current_question}"
     
-    # Initialize the selected option for this question if not already set
+    
     if q_key not in st.session_state.selected_options:
         st.session_state.selected_options[q_key] = st.session_state.answers[st.session_state.current_question]
     
-    # Determine the index to pre-select
+
     index = None
     if st.session_state.selected_options[q_key] is not None:
         index = question_data["options"].index(st.session_state.selected_options[q_key])
     
-    # Create the radio buttons
+
     selected_option = st.radio(
         "Select your answer:",
         question_data["options"],
@@ -328,11 +402,10 @@ def display_question():
     
     st.markdown("---")
     
-    # Responsive button layout based on screen size
-    screen_width = 800  # Default assumption
+    screen_width = 800  
     
-    # Different layouts for navigation buttons
-    if screen_width <= 768:  # Mobile view
+  
+    if screen_width <= 768: 
         col1, col2 = st.columns(2)
         
         with col1:
@@ -351,7 +424,7 @@ def display_question():
                     calculate_score()
                     st.session_state.quiz_completed = True
                     st.rerun()
-    else:  # Desktop view
+    else:  
         col1, col2, col3 = st.columns([1, 1, 1])
         
         with col1:
@@ -370,24 +443,25 @@ def display_question():
                     calculate_score()
                     st.session_state.quiz_completed = True
                     st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
 
 def option_selected(question_index, options):
-    # This function is called when a radio button selection changes
+    
     q_key = f"q{question_index}"
     
-    # Get the selected option
+
     selected_option = st.session_state[q_key]
     
-    # Update answers list
+
     st.session_state.answers[question_index] = selected_option
     st.session_state.selected_options[q_key] = selected_option
     
-    # Move to next question if not the last one
+    
     if question_index < len(st.session_state.questions) - 1:
         st.session_state.current_question = question_index + 1
         st.rerun()
     elif question_index == len(st.session_state.questions) - 1:
-        # If it's the last question, don't automatically submit
+        
         pass
 
 def calculate_score():
@@ -399,16 +473,17 @@ def calculate_score():
     st.session_state.score = score
 
 def show_results():
+    st.markdown("<div class='quiz-container'>", unsafe_allow_html=True)
     total_questions = len(st.session_state.questions)
     score_percentage = (st.session_state.score / total_questions) * 100
     
     st.markdown("### Quiz Results")
     
-    # Responsive layout for results - without checkbox
-    screen_width = 800  # Default assumption
     
-    if screen_width <= 768:  # Mobile layout
-        # Stack columns
+    screen_width = 800  
+    
+    if screen_width <= 768:  
+        
         st.metric("Score", f"{st.session_state.score}/{total_questions}", f"{score_percentage:.1f}%")
         
         if score_percentage >= 80:
@@ -425,7 +500,7 @@ def show_results():
         }
         st.bar_chart(results_chart)
     else:
-        # Desktop layout - side by side
+        
         col1, col2 = st.columns(2)
         with col1:
             st.metric("Score", f"{st.session_state.score}/{total_questions}", f"{score_percentage:.1f}%")
@@ -464,6 +539,7 @@ def show_results():
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
